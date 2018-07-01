@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
+  </head>
+  <body>
+    <section id="getintouch" >
+        <div class="container" style="border-bottom: 0;">
+            <h1>
+                <span>HeavyWater-Document-Classifier</span>
+            </h1>
+        </div>
+        <div class="container">
+            <form class="contact" id="form" action="{{url_for('predict')}}" method="get">
+                <input type="text" id="InputBox" name="text" placeholder="Input a text">
+                <br>
+                <button type="button" id="changeInput">Upload a file</button>
+                <br>
+                <div class="span10 offset2">
+                    <input type="submit" name="submit" id="submit" class="submit" value="Predict">
+                </div>
+            </form>
+            <p id="table"></p>
+            <script>
+              var results = JSON.parse({{result | tojson}});
+              txt = "<table id='table' border='1'>";
+              txt += "<tr><th>Result #</th><th>Primary Category</th><th>Probability</th>";
+              for (var row in results) {
+                txt += "<tr><td>" + (parseInt(row)+1) + "</td>";
+                for (var col in results[row]) {
+                  txt += "<td>" + results[row][col] + "</td>";
+                }
+                txt += "</tr>";
+              }
+              txt += "</table>";
+              document.getElementById("table").innerHTML = txt;
+            </script>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/changeButton.js') }}""></script>
+  </body>
+</html>
