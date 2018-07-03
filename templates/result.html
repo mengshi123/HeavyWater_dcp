@@ -25,7 +25,22 @@
                     <input type="submit" name="submit" id="submit" class="submit" value="Predict">
                 </div>
             </form>
-            
+            <p></p>
+            <p id="table"></p>
+            <script>
+              var results = JSON.parse({{result | tojson}});
+              txt = "<table id='table' border='1'>";
+              txt += "<tr><th> # </th><th>Document Label</th><th>Probability</th>";
+              for (var row in results) {
+                txt += "<tr><td>" + (parseInt(row)+1) + "</td>";
+                for (var col in results[row]) {
+                  txt += "<td>" + results[row][col] + "</td>";
+                }
+                txt += "</tr>";
+              }
+              txt += "</table>";
+              document.getElementById("table").innerHTML = txt;
+            </script>
         </div>
     </section>
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>                <!-- Popper (https://popper.js.org/) -->
